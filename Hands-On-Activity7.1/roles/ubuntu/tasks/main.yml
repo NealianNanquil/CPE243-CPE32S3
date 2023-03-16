@@ -1,0 +1,14 @@
+
+  - name: Collect log files from the Control Node
+    find:
+      paths: /var/log/
+      patterns: '*.log'
+    register: log_files
+
+  - name: Copy log files form the Contol Node
+    fetch:
+      src: "{{ item.path }}"
+      dest: "/tmp/logs"
+      flat: yes
+    with_items: "{{ log_files.files }}"
+
